@@ -43,7 +43,7 @@ Next install Vagrant by going to https://www.vagrantup.com/downloads.html, choos
 
 Now, to confirm successful installation. go into your terminal window and type:
 
-vagrant -v
+    vagrant -v
 
 
 ### Step 2: Install CoreOS
@@ -52,7 +52,9 @@ Now we are ready to install CoreOS inside a VM created by Vagrant.
 
 Make a directory for your project and change directory into it. In your terminal type:
 
-mkdir cloudnative-wordpress; cd cloudnative-wordpress
+    mkdir cloudnative-wordpress; 
+    
+    cd cloudnative-wordpress
 
 
 Now we are going to clone the CoreOS Vagrant configuration repo from github:
@@ -115,13 +117,13 @@ It should ask you for your password for the etc/hosts file to be modified.
 
 If you get error saying something about NFS error, run these commands:
 
-    sudo rm /etc/exports
+    sudo rm /etc/exports;
 
-    sudo touch /etc/exports
+    sudo touch /etc/exports;
 
-    vagrant halt
+    vagrant halt;
 
-    vagrant up --provision
+    vagrant up --provision;
 
 There is also a permission issue with synching files to you local computer. To solve on your computer,  open:
 
