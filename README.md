@@ -91,20 +91,22 @@ Vagrantfile:
 
 Next, we are going to set our IP address and tell vagrant sync our local computers folder to a folder inside the CoreOS VM. Open the Vagrantfile and comment out:
 
-ip = "172.17.8.#{i+100}"
-config.vm.network :private_network, ip: ip
+    ip = "172.17.8.#{i+100}"
+    config.vm.network :private_network, ip: ip
 and add this:
 
-config.vm.network "private_network", ip: "172.17.8.150"
+    config.vm.network "private_network", ip: "172.17.8.150"
+
 Then add:
 
-config.vm.synced_folder ".", "/home/core/share", id: "core", :nfs => true, :mount_options => ['nolock,vers=3,udp']
+    config.vm.synced_folder ".", "/home/core/share", id: "core", :nfs => true, :mount_options => ['nolock,vers=3,udp']
+
 We also have to create a folder for WordPress locally. Do that by typing:
 
-mkdir site
+    mkdir site
 
 
-Step 3: Login into CoreOS VM and run Docker
+### Step 3: Login into CoreOS VM and run Docker
 
 Now type:
 
@@ -113,54 +115,115 @@ It should ask you for your password for the etc/hosts file to be modified.
 
 If you get error saying something about NFS error, run these commands:
 
-sudo rm /etc/exports
-sudo touch /etc/exports
-vagrant halt
-vagrant up --provision
-There is also a permission issue with synching files to you local computer. To solve,  open /etc/exports on your computer and change
+    sudo rm /etc/exports
 
--mapall=<your-uid>:<your-gid>
+    sudo touch /etc/exports
+
+    vagrant halt
+
+    vagrant up --provision
+
+There is also a permission issue with synching files to you local computer. To solve on your computer,  open:
+
+    /etc/exports
+
+and change:
+    
+    -mapall=<your-uid>:<your-gid>
 to:
 
--maproot=0
-*See this issue regarding this. If you know of better fix, please let me know in the comments below.
+    -maproot=0
+*See this [issue](https://github.com/mitchellh/vagrant/issues/8061) regarding this. If you know of better fix, please let me know in the comments below.
 
 Now, restart 'nfsd' by running this command:
 
-sudo nfsd restart
+    sudo nfsd restart
+
 If all goes well, login into your vm by typing:
 
-vagrant ssh
-Once inside the VM, you'll need to create a place for mySQL to run. Type:
+    vagrant ssh
+   
 
-mkdir -p /home/core/env/mariadb/data
-Before we use the Docker CLI that comes with CoreOS to download and configure mySQL/Mariadb, run this command to rm running containers:
+Before we use the Docker CLI that comes with CoreOS to download and configure mySQL/Mariadb, run this command to create a place for mySQL to run, while inside the VM that you just ssh into:
 
-docker rm $(docker ps -a -q) -f
+     mkdir -p /home/core/env/mariadb/data
+
+If you have any running containers, you can quickly remove them by using this command:
+
+    docker rm $(docker ps -a -q) -f
+
 Now the Docker command to install MariaDB:
 
-docker run -d -v /home/core/env/mariadb/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 3306:3306 --name mariadb mariadb:latest
+    docker run -d -v /home/core/env/mariadb/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 3306:3306 --name mariadb mariadb:latest
+
 Now to install WordPress with this command:
 
-docker run -d --name wordpress --link mariadb:mysql -p 8080:80 -v /home/core/share/site:/srv/www/space-rocket/public_html/wordpress wordpress:4.7.0-php7.0-apache
+    docker run -d --name wordpress --link mariadb:mysql -p 8080:80 -v /home/core/share/site:/srv/www/space-rocket/public_html/wordpress wordpress:4.7.0-php7.0-apache
+
 You should now have WordPress running at:
 
-http://172.17.8.150:8080/
+    http://172.17.8.150:8080/
+    
 There is one last step to enable media file uploads. Log into the docker container by typing:
 
-docker exec -it wordpress /bin/bash
+    docker exec -it wordpress /bin/bash
+
 Once in the shell for the wordpress container, run this command:
 
-chown www-data:www-data -R /srv/www/space-rocket/public_html/wordpress/wp-content
+    chown www-data:www-data -R /srv/www/space-rocket/public_html/wordpress/wp-content
+
 Here is a table of of the flags that we just used:
 
-Flag	Type	Action
--d, --detach	n/a	Run container in background and print container ID
--e, --env	value	Set environment variables (default [])
--i, --interactive	N/A	Keep STDIN open even if not attached
--t, --tty	N/A	Allocate a pseudo-TTY (terminal driver)
---name	string	Assign a name to the container
---link	value	Add link to another container (default [])
--p, --publish	value	Publish a container's port(s) to the host (default [])
-v, --volume	value	Bind mount a volume (default [])
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Flag</th>
+			<th>Type</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>-d, --detach</td>
+			<td>n/a</td>
+			<td>Run container in background and print container ID</td>
+		</tr>
+		<tr>
+			<td>-e, --env</td>
+			<td>value</td>
+			<td>Set environment variables (default [])</td>
+		</tr>
+		<tr>
+			<td>-i, --interactive</td>
+			<td>N/A</td>
+			<td>Keep STDIN open even if not attached</td>
+		</tr>
+		<tr>
+			<td>-t, --tty</td>
+			<td>N/A</td>
+			<td>Allocate a pseudo-TTY (terminal driver)</td>
+		</tr>
+		<tr>
+			<td>--name</td>
+			<td>string</td>
+			<td>Assign a name to the container</td>
+		</tr>
+		<tr>
+			<td>--link</td>
+			<td>value</td>
+			<td>Add link to another container (default [])</td>
+		</tr>
+		<tr>
+			<td>-p, --publish</td>
+			<td>value</td>
+			<td>Publish a container's port(s) to the host (default [])</td>
+		</tr>
+		<tr>
+			<td>v, --volume</td>
+			<td>value</td>
+			<td>Bind mount a volume (default [])</td>
+		</tr>
+	</tbody>
+</table>
+
 This is a quick way to create a CloudNative WordPress on your Mac or Windows machine. Next, we'll have the Docker CLI commands broken down into a Dockerfile. We'll save that for our next blog article!
