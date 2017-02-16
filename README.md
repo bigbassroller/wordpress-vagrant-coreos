@@ -50,17 +50,12 @@ Now, to confirm successful installation. go into your terminal window and type:
 
 Now we are ready to install CoreOS inside a VM created by Vagrant.
 
-Make a directory for your project and change directory into it. In your terminal type:
-
-    mkdir cloudnative-wordpress; 
-    
-    cd cloudnative-wordpress
-
 
 Now we are going to clone the CoreOS Vagrant configuration repo from github:
 
-git clone https://github.com/coreos/coreos-vagrant .
-Next there are some minor configurations we have to do. In your favorite text editor, open up the folder that the git clone created. You should see a list of files like this:
+    git clone https://github.com/coreos/coreos-vagrant
+    
+This will make a directory 'cores-vagrant' with these contents:
 
 + CONTRIBUTING.md
 + DCO
