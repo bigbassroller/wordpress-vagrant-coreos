@@ -1,13 +1,11 @@
 
-What is Cloud Native WordPress?
+## What is Cloud Native WordPress?
 
 Well, Cloud Native is the new hot trendy buzz word in devOps, and WordPress is the software that is used by the most amount of people. So I put the two together. What is Cloud Native? Cloud Native is apps that are born inside a cloud infrastructure. Cloud infrastructure's strongest ally is the Linux Container, which offer easy transport and scalability inside the cloud.
 
 The objective is to make WordPress a backend microservice for a javaScript app by ingesting WordPress data via the JSON-REST-API. Encapsulating WordPress into containers in our local environment will give us the opportunity to not only build our app in a easily distributed manner, but also allow us to architect our cloud based microservices.
 
-
-
-What are Linux Containers?
+### What are Linux Containers?
 
 Linux Containers have been around for awhile, but have been recently standardized through the Open Container Initiative (OCI). The most popular linux container runtime is Docker, which I am sure you've seen the cutesy Docker whale: Docker Logo
 
@@ -15,31 +13,28 @@ We all like warm fuzzy animals from the ocean, so in this tutorial I'll be using
 
 
 
-What is CoreOS?
+### What is CoreOS?
 
 CoreOS is a linux kernel like Ubuntu, but with bare minimal components to run standardized Linux Containers. CoreOS has many benefits for running cloud native apps, like easy cluster configuration and rolling OS updates with no downtime. We will be running Docker containers inside CoreOS in this tutorial.
 
 
 
-What is Vagrant?
+### What is Vagrant?
 
 Vagrant is a virtual environment manager. We will use it like getting a droplet from Digital Ocean or an instance at AWS. We will be creating a VM environment with Vagrant and install the CoreOS Linux kernal inside a partition created by Vagrant. This way we have an isolated and standardized dev environment that can be replicated on different cloud providers, like Digital Ocean or AWS. No more WOMM (Works On My Machine).
 
 
 
-What is VirtualBox?
+### What is VirtualBox?
 
 Virtual Box is a Hypervisor, or in layman terms, a virtual hardware environment. It is needed to run Vagrant on MacOS and Windows.
 
 
 
+## How to setup local Cloud Native WordPress Environment:
 
 
-How to setup local Cloud Native WordPress Environment:
-
-
-
-Step 1: Install Vagrant and Virtualbox
+### Step 1: Install Vagrant and Virtualbox
 
 First you'll need VirtualBox. Go to https://www.virtualbox.org/wiki/Downloads
 and choose which operating system you are on and follow the instructions. It should only take a couple of clicks.
@@ -51,7 +46,7 @@ Now, to confirm successful installation. go into your terminal window and type:
 vagrant -v
 
 
-Step 2: Install CoreOS
+### Step 2: Install CoreOS
 
 Now we are ready to install CoreOS inside a VM created by Vagrant.
 
@@ -65,29 +60,33 @@ Now we are going to clone the CoreOS Vagrant configuration repo from github:
 git clone https://github.com/coreos/coreos-vagrant .
 Next there are some minor configurations we have to do. In your favorite text editor, open up the folder that the git clone created. You should see a list of files like this:
 
-├── CONTRIBUTING.md
-├── DCO
-├── LICENSE
-├── MAINTAINERS
-├── NOTICE
-├── README.md
-├── Vagrantfile
-├── config.rb.sample
-└── user-data.sample
-config.rb:
++ CONTRIBUTING.md
++ DCO
++ LICENSE
++ MAINTAINERS
++ NOTICE
++ README.md
++ Vagrantfile
++ config.rb.sample
++ user-data.sample
++ config.rb:
 
+
+#### config.rb
 First, make a copy of config.rb.sample and rename it config.rb. Open it up add make these changes:
 
-$share_home=false
-to be true:
+    $share_home=false
+to:
 
-$share_home=true
+    $share_home=true
+
 Next, tell CoreOS which folder from your local computer to share with the VM. First, be sure to get the absolute path of the directory inside the terminal of where you installed your apps VM by typing this:
 
-pwd
+    pwd
 Use that result in place of "/Users/YOURUSERNAME/Sites/cloudnative-wordpress" in this command:
 
-$shared_folders = {'/Users/YOURUSERNAME/Sites/cloudnative-wordpress/site' => '/srv/www/space-rocket/public_html/wordpress'}
+    $shared_folders = {'/Users/YOURUSERNAME/Sites/cloudnative-wordpress/site' => '/srv/www/space-rocket/public_html/wordpress'}
+
 Vagrantfile:
 
 Next, we are going to set our IP address and tell vagrant sync our local computers folder to a folder inside the CoreOS VM. Open the Vagrantfile and comment out:
