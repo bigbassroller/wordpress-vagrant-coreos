@@ -160,7 +160,7 @@ Now the Docker command to install MariaDB:
 
 Now to install WordPress with this command:
 
-    docker run -d --name wordpress --link mariadb:mysql -p 8080:80 -v /home/core/share/site:/srv/www/space-rocket/public_html/wordpress wordpress:4.7.0-php7.0-apache
+    docker run -d --name wordpress --link mariadb:mysql -p 8080:80 -v /home/core/share/site:/var/www/html wordpress:4.7.0-php7.0-apache
 
 You should now have WordPress running at:
 
