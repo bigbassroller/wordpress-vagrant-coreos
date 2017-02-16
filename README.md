@@ -174,7 +174,7 @@ There is one last step to enable media file uploads. Log into the docker contain
 
 Once in the shell for the wordpress container, run this command:
 
-    chown www-data:www-data -R /srv/www/space-rocket/public_html/wordpress/wp-content
+    chown www-data:www-data -R /var/www/html/wordpress/wp-content
 
 Here is a table of of the flags that we just used:
 
