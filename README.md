@@ -83,6 +83,10 @@ Next, tell CoreOS which folder from your local computer to share with the VM. Fi
 Use that result in place of "/Users/YOURUSERNAME/Sites/cloudnative-wordpress" in this command:
 
     $shared_folders = {'/Users/YOURUSERNAME/Sites/cloudnative-wordpress/site' => '/var/www/html'}
+    
+For example, mine looks like this:
+    
+    $shared_folders = {'/Users/bigbassroller2017/Sites/wordpress-vagrant-coreos/coreos-vagrant' => '/var/www/html'}
 
 #### Vagrantfile:
 
@@ -90,6 +94,7 @@ Next, we are going to set our IP address and tell vagrant sync our local compute
 
     ip = "172.17.8.#{i+100}"
     config.vm.network :private_network, ip: ip
+
 and add this:
 
     config.vm.network "private_network", ip: "172.17.8.150"
