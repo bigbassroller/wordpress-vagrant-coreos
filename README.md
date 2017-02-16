@@ -82,9 +82,9 @@ Next, tell CoreOS which folder from your local computer to share with the VM. Fi
     pwd
 Use that result in place of "/Users/YOURUSERNAME/Sites/cloudnative-wordpress" in this command:
 
-    $shared_folders = {'/Users/YOURUSERNAME/Sites/cloudnative-wordpress/site' => '/srv/www/space-rocket/public_html/wordpress'}
+    $shared_folders = {'/Users/YOURUSERNAME/Sites/cloudnative-wordpress/site' => '/var/www/html'}
 
-Vagrantfile:
+#### Vagrantfile:
 
 Next, we are going to set our IP address and tell vagrant sync our local computers folder to a folder inside the CoreOS VM. Open the Vagrantfile and comment out:
 
@@ -107,7 +107,8 @@ We also have to create a folder for WordPress locally. Do that by typing:
 
 Now type:
 
-vagrant up
+    vagrant up
+    
 It should ask you for your password for the etc/hosts file to be modified.
 
 If you get error saying something about NFS error, run these commands:
@@ -130,6 +131,7 @@ and change:
 to:
 
     -maproot=0
+    
 *See this [issue](https://github.com/mitchellh/vagrant/issues/8061) regarding this. If you know of better fix, please let me know in the comments below.
 
 Now, restart 'nfsd' by running this command:
