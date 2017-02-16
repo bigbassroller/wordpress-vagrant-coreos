@@ -55,7 +55,7 @@ Now we are going to clone the CoreOS Vagrant configuration repo from github:
 
     git clone https://github.com/coreos/coreos-vagrant
     
-This will make a directory 'cores-vagrant' with these contents:
+This will make a directory named 'cores-vagrant' with these contents:
 
 + CONTRIBUTING.md
 + DCO
