@@ -166,7 +166,7 @@ Now to install WordPress with this command:
 
 You should now have WordPress running at:
 
-    http://172.17.8.150:8080/
+    (http://172.17.8.150:8080/)[http://172.17.8.150:8080/]
     
 There is one last step to enable media file uploads. Log into the docker container by typing:
 
