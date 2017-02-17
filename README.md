@@ -229,4 +229,4 @@ Here is a table of of the flags that we just used:
 	</tbody>
 </table>
 
-Notice that Docker is running inside CoreOS and CoreOS is running inside of a Vagrant/Virtualbox VM. When you shut down or restart your computer, you will have to vagrant up, vagrant ssh and run the Docker commands once more.
+Notice that Docker is running inside CoreOS and CoreOS is running inside of a Vagrant/Virtualbox VM. When you shut down or restart your computer, you will have to vagrant up, vagrant ssh and run the Docker commands again.
