@@ -165,8 +165,7 @@ Now to install WordPress with this command:
     docker run -d --name wordpress --link mariadb:mysql -p 8080:80 -v /home/core/share/site:/var/www/html wordpress:4.7.0-php7.0-apache
 
 You should now have WordPress running at:
-
-    [http://172.17.8.150:8080/](http://172.17.8.150:8080/)
+[http://172.17.8.150:8080/](http://172.17.8.150:8080/)
     
 There is one last step to enable media file uploads. Log into the docker container by typing:
 
